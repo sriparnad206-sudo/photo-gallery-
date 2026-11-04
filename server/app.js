@@ -8,12 +8,13 @@ import { randomUUID } from 'node:crypto';
 import { neon } from '@neondatabase/serverless';
 
 const app = express();
-const sql = neon(process.env.DATABASE_URL);
-const jwtSecret = process.env.JWT_SECRET;
 
-if (!process.env.DATABASE_URL || !jwtSecret) {
+if (!process.env.DATABASE_URL || !process.env.JWT_SECRET) {
   throw new Error('Set DATABASE_URL and JWT_SECRET in your environment variables.');
 }
+
+const sql = neon(process.env.DATABASE_URL);
+const jwtSecret = process.env.JWT_SECRET;
 
 app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' }));
 app.use(express.json({ limit: '4mb' }));
